@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Calculator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    body { font-family: Arial; display: flex; justify-content: center; margin-top: 40px; }
+    .calc { width: 300px; border: 1px solid #999; }
+    .display { background: #ddd; height: 80px; text-align: right; padding: 10px; font-size: 28px; }
+    .keys { display: grid; grid-template-columns: repeat(4, 1fr); }
+    button { padding: 18px 0; font-size: 18px; border: 1px solid #1a6a31; color: white; cursor: pointer; }
+    .wide { grid-column: span 2; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function Display(props) {
+      return <div className="display">{props.value || "0"}</div>;
+    }
+
+    function Button(props) {
+      return (
+        <button
+          className={props.wide ? "wide" : ""}
+          style={{ background: props.color }}
+          onClick={() => props.onClick(props.label)}
+        >
+          {props.label}
+        </button>
+      );
+    }
+
+    function App() {
+      const [expr, setExpr] = React.useState("");
+
+      function handleClick(label) {
+        if (label === "Clear") setExpr("");
+        else if (label === "Delete") setExpr(expr.slice(0, -1));
+        else if (label === "=") {
+          try {
+            const kq = eval(expr.replace(/×/g, "*").replace(/÷/g, "/"));
+            setExpr(String(kq));
+          } catch {
+            setExpr("Error");
+          }
+        } else setExpr(expr === "Error" ? label : expr + label);
+      }
+
+      return (
+        <div className="calc">
+          <Display value={expr} />
+          <div className="keys">
+            <Button label="Clear" color="green" onClick={handleClick} />
+            <Button label="Delete" color="green" wide onClick={handleClick} />
+            <Button label="÷" color="darkgreen" onClick={handleClick} />
+            <Button label="7" color="green" onClick={handleClick} />
+            <Button label="8" color="green" onClick={handleClick} />
+            <Button label="9" color="green" onClick={handleClick} />
+            <Button label="×" color="darkgreen" onClick={handleClick} />
+            <Button label="4" color="green" onClick={handleClick} />
+            <Button label="5" color="green" onClick={handleClick} />
+            <Button label="6" color="green" onClick={handleClick} />
+            <Button label="-" color="darkgreen" onClick={handleClick} />
+            <Button label="1" color="green" onClick={handleClick} />
+            <Button label="2" color="green" onClick={handleClick} />
+            <Button label="3" color="green" onClick={handleClick} />
+            <Button label="+" color="darkgreen" onClick={handleClick} />
+            <Button label="0" color="green" wide onClick={handleClick} />
+            <Button label="." color="green" onClick={handleClick} />
+            <Button label="=" color="darkgreen" onClick={handleClick} />
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

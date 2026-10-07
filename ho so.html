@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>CV</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    body { font-family: Arial; max-width: 700px; margin: 20px auto; line-height: 1.6; }
+    header { background: #1b4d3e; color: white; padding: 20px; }
+    h2 { border-bottom: 2px solid #1b4d3e; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const skills = ["HTML", "CSS", "JavaScript", "React"];
+    const projects = [
+      { name: "Trang CV", desc: "Trang giới thiệu bản thân" },
+      { name: "Virtual Calculator", desc: "Máy tính bằng React" },
+    ];
+
+    function Header(props) {
+      return (
+        <header>
+          <h1>{props.name}</h1>
+          <p>{props.job}</p>
+        </header>
+      );
+    }
+
+  
+    function Section(props) {
+      return (
+        <section>
+          <h2>{props.title}</h2>
+          {props.children}
+        </section>
+      );
+    }
+
+    function Skills(props) {
+      return (
+        <ul>
+          {props.list.map((s) => <li key={s}>{s}</li>)}
+        </ul>
+      );
+    }
+
+    function Projects(props) {
+      return (
+        <div>
+          {props.list.map((p) => (
+            <p key={p.name}><b>{p.name}</b>: {p.desc}</p>
+          ))}
+        </div>
+      );
+    }
+
+    function Contact(props) {
+      return <p>Email: {props.email}</p>;
+    }
+
+    function App() {
+      return (
+        <div>
+          <Header name="Phạm Tiến DŨng" job="Sinh viên Aiot" />
+          <Section title="Kỹ năng"><Skills list={skills} /></Section>
+          <Section title="Dự án"><Projects list={projects} /></Section>
+          <Section title="Liên hệ"><Contact email="DungPT.B25TV018@stu.ptit.edu.vn" /></Section>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
